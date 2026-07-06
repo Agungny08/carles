@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Carles Fav — Logo</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="gallery-header">
+  <div class="eyebrow">Carles Fav — Logo</div>
+  <h1>Pilih dan unduh logo</h1>
+  <p>Klik tombol unduh di bawah setiap desain untuk menyimpan file ke perangkatmu.</p>
+</div>
+
+<div class="grid">
+
+  <div class="card">
+    <div class="thumb"><img src="https://i.ibb.co.com/M51MJpns/20260706-181352.png" alt="Logo Carles Fav"></div>
+    <div class="card-body">
+      <button class="download-btn" data-url="https://i.ibb.co.com/M51MJpns/20260706-181352.png" data-filename="carles-fav-logo-1.png">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v12m0 0l-4-4m4 4l4-4M4 19h16"/></svg>
+        Unduh
+      </button>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="thumb"><img src="https://i.ibb.co.com/fd37W8T5/a-hand-drawn-black-and-white-tattoo-flas-d39x-g9b-Wx-KD5-R5m-UBUh-Og-jr-Q3dl-TWSGQ2-Zb806k4w.jpg" alt="Logo Carles Fav"></div>
+    <div class="card-body">
+      <button class="download-btn" data-url="https://i.ibb.co.com/v4GmVDtM/20260706-181528.png" data-filename="carles-fav-logo-2.png">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v12m0 0l-4-4m4 4l4-4M4 19h16"/></svg>
+        Unduh
+      </button>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="thumb"><img src="https://cdn.phototourl.com/member/2026-07-06-447c90c3-725b-4ddf-a98c-ebfd5f04121d.webp" alt="Logo Carles Fav"></div>
+    <div class="card-body">
+      <button class="download-btn" data-url="https://cdn.phototourl.com/member/2026-07-06-447c90c3-725b-4ddf-a98c-ebfd5f04121d.webp" data-filename="carles-fav-logo-3.png">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v12m0 0l-4-4m4 4l4-4M4 19h16"/></svg>
+        Unduh
+      </button>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  document.querySelectorAll('.download-btn').forEach(function (btn) {
+    btn.addEventListener('click', async function () {
+      const url = btn.getAttribute('data-url');
+      const filename = btn.getAttribute('data-filename') || 'logo.png';
+      const originalHTML = btn.innerHTML;
+
+      btn.classList.add('loading');
+      btn.textContent = 'Mengunduh...';
+
+      try {
+        const response = await fetch(url, { mode: 'cors' });
+        if (!response.ok) throw new Error('Fetch gagal: ' + response.status);
+        const blob = await response.blob();
+        const blobUrl = URL.createObjectURL(blob);
+
+        const a = document.createElement('a');
+        a.href = blobUrl;
+        a.download = filename;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(blobUrl);
+      } catch (err) {
+        // Fallback: kalau server gambar memblokir CORS, buka di tab baru
+        // supaya pengguna bisa klik kanan -> Simpan gambar sebagai...
+        window.open(url, '_blank');
+        alert('Unduhan otomatis diblokir oleh server gambar. Gambar dibuka di tab baru — klik kanan pada gambar lalu pilih "Simpan gambar sebagai..." untuk menyimpannya.');
+      } finally {
+        btn.classList.remove('loading');
+        btn.innerHTML = originalHTML;
+      }
+    });
+  });
+</script>
+
+</body>
+</html>
